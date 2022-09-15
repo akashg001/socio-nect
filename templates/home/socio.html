@@ -1,0 +1,310 @@
+
+{% load static %}
+{% load notifications_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socio-connect</title>
+    <link rel="shortcut icon" href="./images/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{% static 'css/socio.css' %}">
+    <link rel="icon" href="{% static 'images/Add a subheading (2).png' %}">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+    </script>
+</head>
+<body>
+    
+
+<nav>
+    
+    <div class="container">
+        <div class="logo text-bold">
+                <i> Socio-connect</i></div>
+            <div class="search_bar">
+                <i class="uil uil-search"></i>
+                <form action="{% url 'search' %}" method="GET" >
+                <input type="text" placeholder="search for creators" name="q" value="{{ request.GET.q }}"> 
+              </form>
+              </div>
+            
+            <div class="create">
+                <label id="creators"  class="btn btn-primary" for="create-post" onclick="show('popup')">create</label> 
+                <div class="popup" id="popup">
+                  <h2 style="font-style: italic; color: #257df8; font-family: Arial, Helvetica, sans-serif;">ADD IMAGE</h2>
+                    <p>Post your picture</p>
+                    <form action="{% url 'post_picture' %}" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+						<input type="file" id="choose-file" name="pic" size="80"  required>
+                        <input class="input-create" type="text" placeholder="Add caption" name="caption"/>
+						<button type="submit" class="btn">Create</button>
+                    </form>
+                  </div>
+                  
+            </div>
+            <div class="profile-photo-nav">
+                <img src="{{me.dp.url}}" alt="profile">
+            </div>
+            <div class="burger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
+        </div> 
+    </nav>
+    <!-- ==============================================main==================================================== -->
+    
+    <main>
+        <div class="container">
+            <div class="left">
+                <a href="{% url 'profile' me.user_id %}"><div class="profile">
+                       <div class="profile-photo"> <img src="{{me.dp.url}}" alt="profile">
+                       </div>
+                        <h4>{{user.first_name}} {{user.last_name}}</h4>
+                        <p class="text-muted">
+                            @ {{user}}
+                        </p>
+                        </a>
+                        </div>
+                <!-- --------------------------slide-bar-------------------------------------------- -->
+                <div id="sidebar" class="sidebar ">
+                    <a href="{% url 'dashboard' %}" class="menu-item active"><span><i class="uil uil-home"></i></span><h3>Home</h3></a>
+                    <a href="{% url 'explore' %}" class="menu-item active"><span><i class="uil uil-compass"></i></span><h3>Explore</h3></a>
+                    <a href="{% url 'inbox' %}"class="menu-item active" id="message-notification"><span><i class="uil uil-envelope-alt"></i></span><h3>Messagse</h3></a>  
+                        <a class="menu-item active" id="notifications" href="{% url 'notifications' %}"><span><i class="uil uil-bell" >
+                            <small class="notification-count">{% live_notify_badge %}+</small>
+                          </i></span><h3>Notifications</h3></a>
+                        <a class="menu-item active"><span><i class="uil uil-palette"></i></span><h3>Dark Mode</h3></a>
+                        <a class="menu-item active"><span><i class="uil uil-setting"></i></span><h3>Settings </h3></a>
+                    </div > 
+                      <a href="{% url 'handlelogout' %}"><button style="background-color: #257df8; color: white;" class="btn"> LOG OUT </button></a>
+                    </div>
+                    
+           <!-- ====================================================middle====================================================          -->
+        <div class="middle-panel">
+                {% comment %} <div class="stories-container">
+                  </div> {% endcomment %}
+              
+                  {% comment %} <div class="story-full">
+                    <div class="content">
+                      <div class="close-btn">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="h-6 w-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="#fff"
+                          stroke-width="2"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M6 18L18 6M6 6l12 12"
+                          />
+                        </svg>
+                      </div>
+              
+                      <div class="left-arrow">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="h-6 w-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="#fff"
+                          stroke-width="2"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M15 19l-7-7 7-7"
+                          />
+                        </svg>
+                      </div>
+              
+                      <img src="{% static 'images/1.png' %}" alt="" />
+              
+                      <div class="right-arrow">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="h-6 w-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="#fff"
+                          stroke-width="2"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                      </div>
+              
+                      <div class="title">Test Title</div>
+                    </div>
+                
+            </div>
+                     {% endcomment %}
+                <!-- --------------------------------------end-of-story-------------------------------------------- -->
+              
+                
+                <!-- =====================================================post-card========================================= -->
+                <div class="post">
+                  <div class="post-top gt23">
+                      <div class="dp">
+                          <img src="{{me.dp.url}}" alt="">
+                      </div>
+                      <input type="text" placeholder="What's on your mind ?" />
+                  </div>
+                  
+                  <div class="post-bottom">
+                      <div class="action">
+                          <i class="fa fa-video"></i>
+                          <span>Live video</span>
+                      </div>
+                      <div class="action">
+                          <i class="fa fa-image"></i>
+                          <span>Photo/Video</span>
+                      </div>
+                      <div class="action">
+                          <i class="fa fa-smile"></i>
+                          <span>Feeling/Activity</span>
+                      </div>
+                  </div>
+              </div>
+              {% if data %}
+              {% for i in data %}
+              
+              <div class="post">
+                  <div class="post-top gt23">
+                      <div class="dp">
+                          <img src="{{i.post_by.dp.url}}" alt="">
+                      </div>
+                      <div class="post-info">
+                          <p class="name">{{i.post_by.user}}</p>
+                          <span class="time">{{i.post_date}}</span>
+                          
+                      </div>
+                      <i class="fas fa-ellipsis-h"></i>
+                  </div>
+  
+                  <div class="post-content">
+                      {{i.caption}}
+                      <img src="{{i.pic.url}}" alt="">
+                  </div>
+                  
+                  
+                  <div class="post-bottom">
+                    
+                    <a href="{% url 'likepost' i.pk %}">
+                      <div class="liked" >
+                        {% if request.user in i.liked_by.all %}
+                        
+                        <p class="likecount">{{i.likes}} <i class="fa fa-thumbs-up" aria-hidden="true"></i><span>Liked</span></p>
+                          
+                        {% else %}
+                        <p class="likecount">{{i.likes}}<i class="far fa-thumbs-up"></i><span>Like</span></p>
+                            
+                        {% endif %}
+                        
+                      </div>
+                    </a>
+                    <a href="{% url 'show' i.pk %}">
+                      <div class="comment">
+                        {{i.comment_count}}
+                          <i class="far fa-comment"></i>
+                          <span>Comment</span>
+                      </div>
+                    </a>
+                      <div class="share">
+                          <i class="fa fa-share"></i>
+                          <span>Share</span>
+                      </div>
+                  </div>
+                  <div>
+
+                  <div class="post-top">
+                    <div class="comment">
+                  <form action="{% url 'commenting' i.pk %}" method="POST">
+                    {% csrf_token %}
+                    <input style="width: 20vw ;" type="text" placeholder="write your comment here" name="comments">
+                  </form>
+                </div>
+                <div class="button-post">
+                  <button style="width: 8vw; height: 5vh; font-size: 15px; margin-left: 8vw; display: flex; justify-content: center; background-color: #257df8;color: white; font-weight: bold;" class="btn" type="submit">Comment</button>
+                </div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+              {% endif %}
+        </div>
+                  <!-- ===============================================post-card-end================================================ -->
+                       <!-- ==============================right-panel============================================================= -->
+                       
+                       <div class="right-panel">
+                        <div class="pages-section">
+                            
+                        <div class="friends-section">
+                            <h4><a href="#" style="color:#25D366; font-weight: bolder;">Active</a> Friends</h4>
+                            {% for i in foll %}
+                            <a class='friend' href="{% url 'profile' i.user.id %}">
+                                <div class="dp">
+                                    <img src="{{i.dp.url}}" alt="">
+                                </div>
+                                <p class="name">{{i.user}}</p>
+                            </a>
+                            {% endfor %}
+                            
+                        </div>
+                    </div>
+                </div>    
+               
+        </div>  
+        <script src="{% static 'js/socioo.js' %}"></script>  
+        
+    </main>
+    <script>
+        $ = function(id) {
+            return document.getElementById(id);
+          }
+          
+          var show = function(id) {
+              $(id).style.display ='block';
+          }
+          var hide = function(id) {
+              $(id).style.display ='none';
+          }
+    </script>
+
+    {% comment %} <script>
+        function likingpost(idd){
+            var id=idd;
+            $.ajax({
+                type:'POST',
+                url: '{% url "likepost" %}',
+                data: {
+                    'id':id,
+                    csrfmiddlewaretoken: '{{csrf_token}}'
+    
+                },
+                success:function(context){
+                    alert("success")
+                    document.getElementById('#my_data').style = context["likecount"];
+                    console.log("funnnnnnnnnnnnnnnnnnnnnnnnnnnnnn");
+                    
+                }
+            });
+    
+        }
+    </script>     {% endcomment %}
+    <script src="{% static 'notifications/notify.js' %}" type="text/javascript"></script>
+{% register_notify_callbacks callbacks='fill_notification_list,fill_notification_badge' %}
+  </body>
+
+</html>

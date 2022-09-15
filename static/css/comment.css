@@ -1,0 +1,13 @@
+*{
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+.main{
+    display: flex;
+    flex-direction: column;
+}
+.upper-half{
+    background-color: #ce796b;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}

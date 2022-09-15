@@ -1,0 +1,116 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	{% comment %} <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" /> {% endcomment %}
+	<link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+	<link rel="icon" href="{% static 'images/Add a subheading (2).png' %}">
+    
+	<title>Document</title>
+	<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+</head>
+<body>
+	<header>
+
+		<div class="container">
+	
+			<div class="profile">
+	
+				<div class="profile-image">
+	
+					<img src="{{data.dp.url}}" alt="">
+	
+				</div>
+	
+				<div class="profile-user-settings">
+	
+					<h1 class="profile-user-name">{{data.user.first_name}} {{data.user.last_name}}</h1>
+					
+					<button class="btn profile-edit-btn">Edit Profile</button>
+				
+					<b><h2>@ {{data.user}}</h2></b>
+					<button class="btn profile-settings-btn" aria-label="profile settings"><i class="fas fa-cog" aria-hidden="true"></i></button>
+	
+				</div>
+	
+				<div class="profile-stats">
+	
+					<ul>
+						<li><span class="profile-stat-count">{{t}}</span> posts</li>
+						<li><span class="profile-stat-count">{{data.total_followers}}</span> followers</li>
+						<li><span class="profile-stat-count">{{data.total_followings}}</span> following</li>
+					</ul>
+				
+				<ul>
+					<a href="{% url 'follow' data.user_id %}">
+						<div class="button">
+					{% if request.user in data.followers.all %}
+					<li> <button class="button-73" role="button">Unfollow</button></li>
+					{% else %}
+					<li><button class="button-73" role="button">Follow</button></li>
+					{% endif %}
+						
+					</a>
+					<a href="{% url 'directs' data.user %}">
+					<li><button class="button-73" role="button">Message</button></li>
+					</a>
+				</div>
+				</ul>
+			</div>
+
+				<div class="profile-bio">
+	
+					<p class="intro"><a href="#"> #engeering_student #coder #web developer</a> 
+						<p> working at Google &#128151; &#128520;</p> 
+						<p>New Life New achivement &#128516; &#128525; </p></p>
+	
+				</div>
+	
+			</div>
+			<!-- End of profile section -->
+	
+		</div>
+		<!-- End of container -->
+	
+	</header>
+	<hr>
+	<main>
+	
+		<div class="container">
+	
+			<div class="gallery">
+				{% if post %}
+				{% for posts in post %}
+				<div class="gallery-item" tabindex="0">
+					<a href="{% url 'show' posts.pk %}">
+
+					<img src="{{posts.pic.url}}" class="gallery-image" alt="">
+					</a>
+					<div class="gallery-item-info">
+	
+						<ul>
+							<li class="gallery-item-likes"><span class="visually-hidden">Likes:</span><i class="fas fa-heart" aria-hidden="true"></i> {{posts.likes}}</li>
+							<li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fas fa-comment" aria-hidden="true"></i>{{posts.comments}}</li>
+						</ul>
+	
+					</div>
+	
+				</div>
+				{% endfor %}
+				{% else %}<h2> NO. Posts</h2>
+				{% endif %}
+				
+				<!-- End of gallery -->
+	
+			
+		</div>
+		<!-- End of container -->
+	
+	</main>
+</body>
+</html>

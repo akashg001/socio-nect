@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>login page</title>
+    <link rel="icon" href="{% static 'images/Add a subheading (2).png' %}">
+    <link rel="stylesheet" href="{% static 'css/loginpage.css' %}" />
+    <style>
+      #popup1{
+        background:#f1bc0dff;
+        background-size: cover;
+        display: flex;
+        text-align: center;
+        justify-content: center;
+      }
+      
+      .popup1:target {
+        visibility: visible;
+        opacity: 1;
+      }
+      .popup {
+        padding: 20px;
+        border-radius: 5px;
+        width: 30%;
+        margin-left: auto;
+        margin-right: auto;
+        transition: all 10s ease-in-out;
+        font-family: Arial, sans-serif;
+        background:  rgba(255,255,255,0.2);
+      }
+      .popup .content {
+        max-height: 100%;
+        overflow: auto;
+      }
+
+      @media screen and (max-width: 700px) {
+        .box {
+          width: 70%;
+        }
+        .popup {
+          width: 70%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="popup1">
+      {% for message in messages %}
+      <div class="popup">
+        <b>Message :</b>
+        <div class="content">{{ message }}</div>
+      </div>
+      {% endfor %}
+    </div>
+    <img src="{% static 'images/gosipps.jpeg' %}" alt="backgroubnd" />
+    <form class="box" action="{% url 'handlelogin' %}" method="post">
+      {% csrf_token %}
+      <img src="{% static 'images/Add a subheading (2).png' %}" alt="logo" />
+      <h1>login</h1>
+      <input
+        type="text"
+        placeholder=" enter email"
+        id="username"
+        name="loginuname"
+      />
+      <input
+        type="password"
+        placeholder="enter password"
+        id="password"
+        name="loginpassword1"
+      />
+      <input type="submit" value="login" />
+      <hr />
+      <p><b>No Account? </b><a href="{% url 'register' %}">Register Now</a></p>
+      <hr />
+    </form>
+    <script
+      type="text/javascript"
+      src="http://code.jquery.com/jquery-latest.js"
+    ></script>
+    <script type="text/javascript">
+      $(function () {
+        setTimeout(function () {
+          $("#popup1").hide();
+        }, 3000);
+      });
+    </script>
+  </body>
+</html>
